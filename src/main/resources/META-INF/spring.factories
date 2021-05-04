@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.blr19c.common.remote.config.RemoteAutoConfig
