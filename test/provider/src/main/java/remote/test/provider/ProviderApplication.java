@@ -1,21 +1,12 @@
 package remote.test.provider;
 
 import com.blr19c.common.remote.config.load.EnableRpc;
-import com.blr19c.common.remote.remoting.inline.InlineRemotingHandler;
+import com.blr19c.common.remote.remoting.RemotingEnum;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import reactor.netty.http.server.HttpServerRequest;
-import reactor.netty.http.server.HttpServerResponse;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 @SpringBootApplication
-@EnableRpc
+@EnableRpc(remoting = RemotingEnum.NETTY)
 public class ProviderApplication {
 
     public static void main(String[] args) {
