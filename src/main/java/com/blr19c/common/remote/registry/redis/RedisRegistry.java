@@ -1,9 +1,7 @@
 package com.blr19c.common.remote.registry.redis;
 
 import com.blr19c.common.remote.common.RpcURI;
-import com.blr19c.common.remote.config.load.UniversalLoader;
 import com.blr19c.common.remote.registry.NotifyListener;
-import com.blr19c.common.remote.registry.RegistryEnum;
 import com.blr19c.common.remote.registry.RemoteRegistry;
 import com.blr19c.common.remote.registry.RemoteRegistryHolder;
 import org.springframework.data.redis.connection.Message;
@@ -13,8 +11,8 @@ import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.Topic;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * redis注册器
@@ -72,7 +70,6 @@ public class RedisRegistry extends RedisMessageListenerContainer implements Remo
         Set<String> urlSet = redisTemplate.opsForSet().members(redisRegisterTopic.getTopic());
         if (urlSet != null)
             for (String url : urlSet) {
-                System.out.println(url);
                 RemoteRegistryHolder.putRpcURI(RpcURI.create(url));
             }
     }
@@ -87,7 +84,6 @@ public class RedisRegistry extends RedisMessageListenerContainer implements Remo
             if (members == null)
                 return;
             for (String url : members) {
-                System.out.println(url);
                 RpcURI uri = RpcURI.create(url);
                 RemoteRegistryHolder.remove(uri);
             }
@@ -103,7 +99,6 @@ public class RedisRegistry extends RedisMessageListenerContainer implements Remo
             if (members == null)
                 return;
             for (String url : members) {
-                System.out.println(url);
                 RemoteRegistryHolder.putRpcURI(RpcURI.create(url));
             }
         }

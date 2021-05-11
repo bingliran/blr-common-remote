@@ -2,6 +2,7 @@ package com.blr19c.common.remote.config.load;
 
 import com.blr19c.common.remote.registry.ProtocolEnum;
 import com.blr19c.common.remote.remoting.RemotingEnum;
+import com.blr19c.common.remote.rpc.RpcRequestEnum;
 import com.blr19c.common.remote.serialization.SerializationEnum;
 import org.springframework.context.annotation.Import;
 
@@ -18,7 +19,7 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Import(EnableConfigRegistrar.class)
+@Import(EnableRpcRegistrar.class)
 public @interface EnableRpc {
 
     /**
@@ -35,4 +36,9 @@ public @interface EnableRpc {
      * 访问方式
      */
     RemotingEnum remoting() default RemotingEnum.INLINE;
+
+    /**
+     * 请求方式
+     */
+    RpcRequestEnum request() default RpcRequestEnum.HTTP;
 }

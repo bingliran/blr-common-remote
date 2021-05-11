@@ -3,10 +3,7 @@ package com.blr19c.common.remote.config.load;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.PropertyValues;
-import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
-import org.springframework.core.Ordered;
-import org.springframework.core.PriorityOrdered;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.ReflectionUtils;
 
@@ -20,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author blr
  * @since 2021.4.23
  */
-public class RpcReferenceAnnotationBeanPostProcessor implements InstantiationAwareBeanPostProcessor, PriorityOrdered {
+public class RpcReferenceAnnotationBeanPostProcessor implements InstantiationAwareBeanPostProcessor {
 
     private final RpcReferenceBeanInitInterface referenceBeanInitInterface;
     private final ConcurrentHashMap<Class<?>, Object> injectionMetadataCache = new ConcurrentHashMap<>(64);
@@ -54,13 +51,5 @@ public class RpcReferenceAnnotationBeanPostProcessor implements InstantiationAwa
                 field.set(bean, injectionMetadataCache.computeIfAbsent(field.getType(), (v) -> referenceBeanInitInterface.init(serviceName, v)));
             });
         }
-    }
-
-    /**
-     * @see AutowiredAnnotationBeanPostProcessor#getOrder()
-     */
-    @Override
-    public int getOrder() {
-        return Ordered.LOWEST_PRECEDENCE - 1;
     }
 }

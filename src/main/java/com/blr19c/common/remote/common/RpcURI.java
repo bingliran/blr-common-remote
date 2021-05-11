@@ -3,7 +3,6 @@ package com.blr19c.common.remote.common;
 import com.blr19c.common.remote.registry.ProtocolEnum;
 import org.apache.commons.lang3.StringUtils;
 
-import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;

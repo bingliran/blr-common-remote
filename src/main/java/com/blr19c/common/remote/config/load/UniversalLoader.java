@@ -1,16 +1,10 @@
 package com.blr19c.common.remote.config.load;
 
-import com.blr19c.common.remote.registry.ProtocolEnum;
 import com.blr19c.common.remote.common.RpcURI;
 import com.blr19c.common.remote.config.auth.Authenticator;
-import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.handler.AbstractHandlerMapping;
-import org.springframework.web.servlet.handler.MappedInterceptor;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -48,15 +42,6 @@ public class UniversalLoader {
     }
 
     /**
-     * 卸载服务
-     */
-    public static void removeServiceRegistrar(RpcURI rpcURI) {
-        synchronized (serviceRegistrar) {
-            serviceRegistrar.remove(rpcURI);
-        }
-    }
-
-    /**
      * 获取注册列表
      */
     public static synchronized List<RpcURI> getServiceRegistrarList() {
@@ -64,10 +49,4 @@ public class UniversalLoader {
             return new ArrayList<>(serviceRegistrar);
         }
     }
-
-    public static ProtocolEnum getProtocol() {
-        return ProtocolEnum.REDIS;
-    }
-
-
 }

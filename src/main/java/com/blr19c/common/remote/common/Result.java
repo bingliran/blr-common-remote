@@ -7,7 +7,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 /**
  * 结果
@@ -74,15 +73,5 @@ public class Result implements Serializable {
 
     public static Result fail(Object data) {
         return new Result(System.currentTimeMillis(), data, FAIL);
-    }
-
-    public static void main(String[] args) {
-        RpcURI uri = RpcURI.create("redis://@172.16.17.1:6379/com.br.aaa.service?methods=method1,method2&pwd=111");
-        System.out.println(uri.getHost());
-        System.out.println(uri.getPort());
-        System.out.println(uri.getPath());
-        System.out.println(uri.uri.getUserInfo());
-        //System.out.println(uri.getScheme());
-        System.out.println(Arrays.toString("".split(":")));
     }
 }

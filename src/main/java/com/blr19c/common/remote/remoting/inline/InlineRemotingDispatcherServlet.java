@@ -1,9 +1,9 @@
 package com.blr19c.common.remote.remoting.inline;
 
 import com.blr19c.common.remote.common.Result;
+import com.blr19c.common.remote.config.RemoteConfigProperties;
 import com.blr19c.common.remote.remoting.RemotingServer;
 import com.blr19c.common.remote.serialization.Serialization;
-import org.jooq.lambda.Seq;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -23,17 +23,21 @@ public class InlineRemotingDispatcherServlet implements RemotingServer {
     private final RequestMappingHandlerMapping requestMappingHandlerMapping;
     private final InlineRemotingHandler invoker;
     private final Serialization serialization;
+    private final RemoteConfigProperties properties;
 
-    public InlineRemotingDispatcherServlet(RequestMappingHandlerMapping requestMappingHandlerMapping, Serialization serialization) {
+    public InlineRemotingDispatcherServlet(RequestMappingHandlerMapping requestMappingHandlerMapping,
+                                           Serialization serialization,
+                                           RemoteConfigProperties properties) {
         this.requestMappingHandlerMapping = requestMappingHandlerMapping;
         this.invoker = new InlineRemotingHandler(serialization);
         this.serialization = serialization;
+        this.properties = properties;
     }
 
     @Override
     public RemotingServer start() throws Exception {
-        //添加拦截器
-        RequestMappingInfo mappingInfo = RequestMappingInfo.paths("/remotingServer")
+        //requestMappingHandlerMapping追加 Controller RequestMapping
+        RequestMappingInfo mappingInfo = RequestMappingInfo.paths(properties.getInlineMapping())
                 .methods(RequestMethod.GET, RequestMethod.POST)
                 .build();
         Method remotingServer = this.getClass().getMethod("remotingServer", HttpServletRequest.class, HttpServletResponse.class);
@@ -47,7 +51,7 @@ public class InlineRemotingDispatcherServlet implements RemotingServer {
         } catch (Exception e) {
             e.printStackTrace();
             response.reset();
-            serialization.serialize(response.getOutputStream(), Result.fail(e.getMessage()).toBytes());
+            serialization.serialize(response.getOutputStream(), Result.fail(e.getMessage()));
         }
     }
 }
